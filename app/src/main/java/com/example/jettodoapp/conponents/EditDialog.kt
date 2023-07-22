@@ -15,42 +15,47 @@ import com.example.jettodoapp.MainViewModel
 @Composable
 fun EditDialog(viewModel: MainViewModel = hiltViewModel()) {
     AlertDialog(
-        onDismissRequest = { viewModel.isShowDialog = false},
-        title = { Text(text = "タスク新規作成")},
-        text = { Column {
-            Text(text = "タイトル")
-            TextField(
-                value = viewModel.title,
-                onValueChange = {viewModel.title = it}
-            )
-            Text(text = "詳細")
-            TextField(
-                value = viewModel.description,
-                onValueChange = {viewModel.description = it}
-            )
-        }},
-        buttons = {
-                  Row(
-                      modifier = Modifier.padding(8.dp),
-                      horizontalArrangement = Arrangement.Center
-                  ) {
-                      Spacer(modifier = Modifier.weight(1f))
-                      Button(modifier = Modifier.width(120.dp),
-                          onClick = { viewModel.isShowDialog = false}
-                      ) {
-                          Text(text = "キャンセル")
-                      }
-                      Spacer(modifier = Modifier.width(10.dp))
-                      Button(modifier = Modifier.width(120.dp),
-                          onClick = {
-                              viewModel.isShowDialog = false
-                              viewModel.createTask()
-                          }
-                      ) {
-                          Text(text = "OK")
-                      }
-
-                  }
+        onDismissRequest = { viewModel.isShowDialog = false },
+        title = { Text(text = if (viewModel.isEditing) "タスク更新" else "タスク新規作成") },
+        text = {
+            Column {
+                Text(text = "タイトル")
+                TextField(
+                    value = viewModel.title,
+                    onValueChange = { viewModel.title = it }
+                )
+                Text(text = "詳細")
+                TextField(
+                    value = viewModel.description,
+                    onValueChange = { viewModel.description = it }
+                )
+            }
         },
-    ) 
+        buttons = {
+            Row(
+                modifier = Modifier.padding(8.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.weight(1f))
+                Button(modifier = Modifier.width(120.dp),
+                    onClick = { viewModel.isShowDialog = false }
+                ) {
+                    Text(text = "キャンセル")
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Button(modifier = Modifier.width(120.dp),
+                    onClick = {
+                        viewModel.isShowDialog = false
+                        if (viewModel.isEditing) {
+                            viewModel.upDateTask()
+                        } else {
+                            viewModel.createTask()
+                        }
+                    }
+                ) {
+                    Text(text = "OK")
+                }
+            }
+        },
+    )
 }

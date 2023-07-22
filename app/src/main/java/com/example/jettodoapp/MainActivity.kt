@@ -49,8 +49,11 @@ fun MainContent(viewModel: MainViewModel = hiltViewModel()) {
         val tasks by viewModel.tasks.collectAsState(initial = emptyList())
         TaskList(
             tasks = tasks,
-            onClickRow = {},
-            onClickDelete = {}
+            onClickRow = {
+                viewModel.setEditingTask(it)
+                viewModel.isShowDialog = true
+            },
+            onClickDelete = {viewModel.deleteTask(it)}
         )
     }
 }

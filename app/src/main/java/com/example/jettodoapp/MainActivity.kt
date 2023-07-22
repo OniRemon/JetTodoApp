@@ -46,7 +46,6 @@ fun MainContent(viewModel: MainViewModel = hiltViewModel()) {
         }
     }) {
         val tasks by viewModel.tasks.collectAsState(initial = emptyList())
-        Log.d("COUNT", tasks.size.toString())
     }
 }
 
